@@ -11,8 +11,7 @@ df = pd.read_csv('vehicles_us.csv')
 # loop over column names and replace missing values in 'is_4wd' column with 0
 df['is_4wd'] = df['is_4wd'].fillna(0)
 # replace missing values in 'model_year' column with average year for the model
-df['model_year'] = df['model_year']
-                   .fillna(df.groupby(['model'])['model_year'].transform('median'))
+df['model_year'] = df['model_year'].fillna(df.groupby(['model'])['model_year'].transform('median'))
 
 # loop over column names and replace missing values with 'unknown'
 columns_to_replace = ['cylinders', 'odometer', 'paint_color']
@@ -65,6 +64,7 @@ st.write(fig)
 
 # create a text header above the chart
 st.header('Color or price?')
+st.write('Hey, are orange cars really trendy?')
 # get user's inputs from a dropdown menu
 manufac_list = sorted(df['manufacturer'].unique())
 what_manufacturer = st.selectbox(
@@ -86,8 +86,9 @@ fig = px.histogram(df_filtered,
 st.write(fig)
 
 # create a text comment for the histogram above
-st.write()
-# ТУТ СЛОВА ПРО ТО, ЧТО ДЕЛО ВООБЩЕ-ТО В КОЛИЧЕСТВЕ МАШИН ТОЖЕ!!!
+st.write('Let\'s be honest, we can\'t say that, for example, orange cars are expensive.')
+st.write('the fact is that there are fewer of them than cars of "basic" colors.')
+st.write('But it\'s still an interesting trend)')
 # а ещё про то, что оранжевые и жёлтые шевроле в тоовом топе
 # И про то, что на самом деле всё зависит от типа машины гораздо больше, чем от цвета
 
