@@ -3,25 +3,26 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Make header
+# make header
 st.header('Hey, do you want a car?')
-# Import dataframe
+# import dataframe
 df = pd.read_csv('vehicles_us.csv')
 
-# Loop over column names and replace missing values in 'is_4wd' column with 0.
+# loop over column names and replace missing values in 'is_4wd' column with 0
 df['is_4wd'] = df['is_4wd'].fillna(0)
-# Loop over column names and replace missing values in 'model_year' column with average year for the model.
-df['model_year'] = df['model_year'].fillna(df.groupby(['model'])['model_year'].transform('median'))
+# replace missing values in 'model_year' column with average year for the model
+df['model_year'] = df['model_year']
+                   .fillna(df.groupby(['model'])['model_year'].transform('median'))
 
-# Loop over column names and replace missing values with 'unknown'.
+# loop over column names and replace missing values with 'unknown'
 columns_to_replace = ['cylinders', 'odometer', 'paint_color']
 for column in columns_to_replace:
     df[column] = df[column].fillna('unknown')
 
-#Create the 'manufacturer' column.
+# create the 'manufacturer' column
 df['manufacturer'] = df['model'].apply(lambda x: x.split()[0])
 
-#Create a function converts a column to int type.
+# create a function converts a column to int type
 def column_in_int(data, column_name):
     column = data[column_name]
     new_column = []
@@ -32,39 +33,38 @@ def column_in_int(data, column_name):
             new_column.append(int(column[i]))
     df[column_name] = new_column
 
-# Convert columns.
+# convert columns
 column_in_int(df, 'price')
 column_in_int(df, 'model_year')
 column_in_int(df, 'odometer')
 column_in_int(df, 'is_4wd')
 column_in_int(df, 'cylinders')
 
-# Create a text header above the dataframe.
+# create a text header above the dataframe
 st.write('Well, we really sold a lot of them over the years of work! Look:')
 
-# display the dataframe with streamlit.
+# display the dataframe with streamlit
 st.dataframe(df)
 
-# Create a text header above the chart.
+# create a text header above the chart
 st.header('Vehicle types by manufacturer')
-# Create a plotly histogram figure.
+# create a plotly histogram figure
 fig = px.histogram(df, x='manufacturer', color='type')
 # display the figure with streamlit
 st.write(fig)
 
-# Create a text header above the chart and a plotly histogram figure.
+# create a text header above the chart and a plotly histogram figure
 st.header('Histogram of `condition` vs `model_year`')
 fig = px.histogram(df, x='model_year', color='condition')
 st.write(fig)
 
+# create a text header above the chart and a plotly histogram figure
 st.header('What about Retro?')
 fig = px.histogram(df, x='model_year', y='price', histfunc='avg')
-# display the figure with streamlit
 st.write(fig)
 
+# create a text header above the chart
 st.header('Color or price?')
-# А здесь "можете поиграть немного тут"
-
 # get user's inputs from a dropdown menu
 manufac_list = sorted(df['manufacturer'].unique())
 what_manufacturer = st.selectbox(
@@ -73,7 +73,7 @@ what_manufacturer = st.selectbox(
                               index=manufac_list.index('chevrolet') # default pre-selected option
                               )
 
-# filter the dataframe 
+# filter the dataframe
 mask_filter = (df['manufacturer'] == what_manufacturer) & (df['paint_color'] != 'unknown')
 df_filtered = df[mask_filter]
 
@@ -84,6 +84,9 @@ fig = px.histogram(df_filtered,
                       histfunc='avg')
 # display the figure with streamlit
 st.write(fig)
+
+# create a text comment for the histogram above
+st.write()
 # ТУТ СЛОВА ПРО ТО, ЧТО ДЕЛО ВООБЩЕ-ТО В КОЛИЧЕСТВЕ МАШИН ТОЖЕ!!!
 # а ещё про то, что оранжевые и жёлтые шевроле в тоовом топе
 # И про то, что на самом деле всё зависит от типа машины гораздо больше, чем от цвета
