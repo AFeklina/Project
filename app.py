@@ -46,6 +46,10 @@ fig = px.histogram(df, x='manufacturer', color='type')
 st.write(fig)
 
 # create a text header above the data
+st.write('Here are details about sold cars:')
+st.dataframe(df)
+
+# create a text header above the data
 st.write('New car is a good car!')
 # create a text header above the chart and a plotly histogram figure
 st.header('Histogram of `condition` vs `model_year`')
@@ -137,10 +141,6 @@ fig = px.histogram(df_filtered,
                       y='price',
                       histfunc='avg')
 st.write(fig)
-
-# create a text header above the data
-st.write('Here are details about the selected cars:')
-st.dataframe(df_filtered)
 
 # create a text header above the data
 st.header('Price history')
