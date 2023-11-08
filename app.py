@@ -96,13 +96,26 @@ years_2 = years[1]
 df_new = df[df['model_year'] != 'unknown']
 
 # and create two checkboxes
-on = st.toggle('Just automatic transmission')
+#on = st.toggle('Just automatic transmission')
+#if on:
+#    df_new = df_new[df['transmission'] == 'automatic']
+
+#on = st.toggle('Just all-wheel drive')
+#if on:
+#    df_new = df_new[df['is_4wd'] == 1]
+
+#============================
+
+on = st.checkbox('Just automatic transmission', value=False)
 if on:
     df_new = df_new[df['transmission'] == 'automatic']
 
-on = st.toggle('Just all-wheel drive')
+on = st.checkbox('Just all-wheel drive', value=False)
 if on:
     df_new = df_new[df['is_4wd'] == 1]
+
+#============================
+
 
 #filter data
 mask_filter = (df_new['model_year'] >=years_1) & (df_new['model_year'] <= years_2)
