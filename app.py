@@ -175,4 +175,7 @@ fig = px.scatter(df_filtered,
 st.write(fig)
 
 # create a final text
+st.write('As you can see, while cars were rare, their prices were really high.')
+st.write('With the development of technology, they have decreased greatly.')
+st.write('Now they are growing again, but you can certainly find something for yourself!')
 st.header('Good luck with your choice!')
