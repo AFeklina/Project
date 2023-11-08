@@ -54,6 +54,7 @@ st.write(fig)
 
 # create a text header above the chart and a plotly histogram figure
 st.header('What about Retro?')
+st.write('Well, you can see, that retro cars are really expensive.')
 fig = px.histogram(df, x='model_year', y='price', histfunc='avg')
 st.write(fig)
 
