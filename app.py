@@ -6,13 +6,13 @@ import plotly.express as px
 # make header
 st.header('Hey, do you want a car?')
 
+# import dataframe
+df = pd.read_csv('vehicles_us.csv')
+
 # loop over column names and replace missing values in 'is_4wd' column with 0
 df['is_4wd'] = df['is_4wd'].fillna(0)
 # replace missing values in 'model_year' column with average year for the model
 df['model_year'] = df['model_year'].fillna(df.groupby(['model'])['model_year'].transform('median'))
-
-# import dataframe
-df = pd.read_csv('vehicles_us.csv')
 
 # create a text header above the data
 st.write('Well, we really sold a lot of them over the years of work! Look:')
