@@ -8,6 +8,10 @@ st.header('Hey, do you want a car?')
 # import dataframe
 df = pd.read_csv('vehicles_us.csv')
 
+# create a text header above the data
+st.write('Well, we really sold a lot of them over the years of work! Look:')
+st.dataframe(df)
+
 # loop over column names and replace missing values in 'is_4wd' column with 0
 df['is_4wd'] = df['is_4wd'].fillna(0)
 # replace missing values in 'model_year' column with average year for the model
@@ -38,16 +42,10 @@ column_in_int(df, 'odometer')
 column_in_int(df, 'is_4wd')
 column_in_int(df, 'cylinders')
 
-# create a text header above the dataframe
-st.write('Well, we really sold a lot of them over the years of work! Look:')
 # create a plotly histogram figure
 fig = px.histogram(df, x='manufacturer', color='type')
 # display the figure with streamlit
 st.write(fig)
-
-# create a text header above the data
-st.write('Here are details about sold cars:')
-st.dataframe(df)
 
 # create a text header above the data
 st.write('New car is a good car!')
