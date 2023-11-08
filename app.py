@@ -5,17 +5,18 @@ import plotly.express as px
 
 # make header
 st.header('Hey, do you want a car?')
+
+# loop over column names and replace missing values in 'is_4wd' column with 0
+df['is_4wd'] = df['is_4wd'].fillna(0)
+# replace missing values in 'model_year' column with average year for the model
+df['model_year'] = df['model_year'].fillna(df.groupby(['model'])['model_year'].transform('median'))
+
 # import dataframe
 df = pd.read_csv('vehicles_us.csv')
 
 # create a text header above the data
 st.write('Well, we really sold a lot of them over the years of work! Look:')
 st.dataframe(df)
-
-# loop over column names and replace missing values in 'is_4wd' column with 0
-df['is_4wd'] = df['is_4wd'].fillna(0)
-# replace missing values in 'model_year' column with average year for the model
-df['model_year'] = df['model_year'].fillna(df.groupby(['model'])['model_year'].transform('median'))
 
 # loop over column names and replace missing values with 'unknown'
 columns_to_replace = ['cylinders', 'odometer', 'paint_color']
@@ -48,9 +49,9 @@ fig = px.histogram(df, x='manufacturer', color='type')
 st.write(fig)
 
 # create a text header above the data
-st.write('New car is a good car!')
+st.header('New car is a good car!')
 # create a text header above the chart and a plotly histogram figure
-st.header('Histogram of `condition` vs `model_year`')
+st.write('Histogram of `condition` vs `model_year`')
 fig = px.histogram(df, x='model_year', color='condition')
 st.write(fig)
 
@@ -87,7 +88,7 @@ st.write(fig)
 st.write('No, of course not! But you can play with the charts some more:)')
 
 # create a text header above the chart
-st.header('Okay, let\'s go! How do you like the prices?')
+st.header('Okay, let\'s go! What about the prices?')
 st.write('Show what you are really waiting for from the car.')
 
 # get user's input: slider for years
