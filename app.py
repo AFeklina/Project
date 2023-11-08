@@ -33,7 +33,6 @@ def column_in_int(data, column_name):
     df[column_name] = new_column
 
 # convert columns
-column_in_int(df, 'price')
 column_in_int(df, 'model_year')
 column_in_int(df, 'odometer')
 column_in_int(df, 'is_4wd')
@@ -41,17 +40,13 @@ column_in_int(df, 'cylinders')
 
 # create a text header above the dataframe
 st.write('Well, we really sold a lot of them over the years of work! Look:')
-
-# display the dataframe with streamlit
-st.dataframe(df)
-
-# create a text header above the chart
-st.header('Vehicle types by manufacturer')
 # create a plotly histogram figure
 fig = px.histogram(df, x='manufacturer', color='type')
 # display the figure with streamlit
 st.write(fig)
 
+# create a text header above the data
+st.write('New car is a good car!')
 # create a text header above the chart and a plotly histogram figure
 st.header('Histogram of `condition` vs `model_year`')
 fig = px.histogram(df, x='model_year', color='condition')
@@ -86,20 +81,20 @@ fig = px.histogram(df_filtered,
 st.write(fig)
 
 # create a text comment for the histogram above
-st.write('Let\'s be honest, we can\'t say that, for example, orange cars are expensive.')
-st.write('the fact is that there are fewer of them than cars of "basic" colors.')
-st.write('But it\'s still an interesting trend)')
-# а ещё про то, что оранжевые и жёлтые шевроле в тоовом топе
-# И про то, что на самом деле всё зависит от типа машины гораздо больше, чем от цвета
+st.write('No, of course not! But you can play with the charts some more:)')
 
+# create a text header above the chart
+st.header('Okay, let\'s go! How do you like the prices?')
+st.write('Show what you are really waiting for from the car.')
 
+# get user's input: slider for years
 years = st.slider('How old is your dream car? Select a range of years', 1908, 2019, (2007, 2019))
-#st.write('Values:', age)
 years_1 = years[0]
 years_2 = years[1]
 
 df_new = df[df['model_year'] != 'unknown']
 
+# and create two checkboxes
 on = st.toggle('Just automatic transmission')
 if on:
     df_new = df_new[df['transmission'] == 'automatic']
@@ -108,17 +103,18 @@ on = st.toggle('Just all-wheel drive')
 if on:
     df_new = df_new[df['is_4wd'] == 1]
 
+#filter data
 mask_filter = (df_new['model_year'] >=years_1) & (df_new['model_year'] <= years_2)
 df_filtered = df_new[mask_filter]
 
+# get user's input from a dropdown menu
 type_list = sorted(df['type'].unique())
-
 options = st.multiselect(
     'What types are you interested in?',
     type_list,
     'sedan')
 
-#df_filtered = df_filtered[df_filtered['type'] in options]
+#filter data
 df_filtered = df_filtered[df_filtered.type.isin(options)]
 
 # create a plotly histogram figure
@@ -128,11 +124,15 @@ fig = px.histogram(df_filtered,
                       histfunc='avg')
 st.write(fig)
 
+# create a text header above the data
 st.write('Here are details about the selected cars:')
 st.dataframe(df_filtered)
 
+# create a text header above the data
+st.header('Price history')
 st.write('And here is some more interesting information about the evolution of prices, if you want:')
 
+# create the 'decades' column
 decades = []
 years = df['model_year']
 for i in range(len(years)):
@@ -143,30 +143,23 @@ for i in range(len(years)):
 #df['model_year'] = years_int
 df['decades'] = decades
 
-
-
-# ФИЛЬТРЫ И ВЫБОР
-# ПОКА ЕЕ РАБОТАЕТ И ПОКАЗЫВАЕТ ВСЕ МАШИНЫ.
-# НУЖНО ПОПРОБОВАТЬ СНАЧАЛА ВЫСЧИТАТЬ СРЕДНЮЮ ЦЕНУ,
-# ПОТОМ ФИГАЧИТЬ ДИАГРАММУ. УЧИТЫВАЯ ВСЕ ФИЛЬТРЫ
-
-# количество для марки и года
+# create the column with count by decades
 counts = df.groupby(['decades','manufacturer'])['decades'].transform('count')
 df['count'] = counts
 
-#средняя цена для марки и года
-df['mean_price'] = df.groupby(['decades','manufacturer'])['price'].transform('mean')
-column_in_int(df, 'mean_price')
+# create the column with average price by decades and manufacturer
+df['avg_price'] = df.groupby(['decades','manufacturer'])['price'].transform('mean')
+column_in_int(df, 'avg_price')
 top_by_count = ['ford', 'toyota', 'honda', 'chevrolet', 'ram', 'jeep', 'nissan']
 df_filtered = df[df.manufacturer.isin(top_by_count)]
 
-
+# create a plotly scatterplot figure
 fig = px.scatter(df_filtered,
                       x='decades',
-                      y='mean_price',
+                      y='avg_price',
                       size = 'count',
                       color = 'manufacturer')
-# МОЖНО ДОБАВИТЬ size='КОЛИЧЕСТВО МАШИН'
 st.write(fig)
 
+# create a final text
 st.header('Good luck with your choice!')
