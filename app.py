@@ -31,7 +31,8 @@ df['manufacturer'] = df['model'].apply(lambda x: x.split()[0])
 fig = px.histogram(df,
                    x='manufacturer',
                    color='type',
-                   title='Count of cars for each type and manufacturer')
+                   title='Count of cars for each type and manufacturer').update_layout(
+                   yaxis_title='count of cars')
 # display the figure with streamlit
 st.write(fig)
 
@@ -42,7 +43,8 @@ fig = px.histogram(df,
                    x='model_year',
                    color='condition',
                    labels={'model_year': 'year of the model'},
-                   title='Count and condition of cars by years')
+                   title='Count and condition of cars by years').update_layout(
+                   yaxis_title='count of cars')
 st.write(fig)
 
 # create a text header above the chart and a plotly histogram figure
@@ -53,7 +55,8 @@ fig = px.histogram(df,
                    y='price',
                    histfunc='avg',
                    labels={'model_year': 'year of the model'},
-                   title='Average prices by model years')
+                   title='Average prices by model years').update_layout(
+                   yaxis_title='average price')
 st.write(fig)
 
 # create a text header above the chart
@@ -77,7 +80,8 @@ fig = px.histogram(df_filtered,
                    y='price',
                    histfunc='avg',
                    title='What color is trendy?',
-                   labels={'paint_color': 'car\'s color' })
+                   labels={'paint_color': 'car\'s color' }).update_layout(
+                   yaxis_title='average price')
 # display the figure with streamlit
 st.write(fig)
 
@@ -136,7 +140,8 @@ fig = px.histogram(df_filtered,
                    x='manufacturer',
                    y='price',
                    histfunc='avg',
-                   title='The car\'s you want')
+                   title='The car\'s you want').update_layout(
+                   yaxis_title='average price')
 st.write(fig)
 
 # create a text header above the data
@@ -171,7 +176,8 @@ fig = px.scatter(df_filtered,
                  y='avg_price',
                  size = 'count',
                  color = 'manufacturer',
-                 title='Average price of cars by decades')
+                 title='Average price of cars by decades').update_layout(
+                   yaxis_title='average price')
 st.write(fig)
 
 # create a final text
