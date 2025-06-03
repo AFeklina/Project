@@ -38,9 +38,3 @@ The app provides interactive visualizations to analyze the condition, price, pop
 - `app.py` — main app script
 - `vehicles_us.csv` — dataset used in the app
 - `EDA_new.ipynb` — some drafts and data research
-
-## 🚀 Run Locally
-
-```bash
-pip install streamlit pandas plotly
-streamlit run app.py
